@@ -5,15 +5,15 @@ pipeline {
 
         stage('Get Source') {
             steps {
-                git url: 'https://github.com/eudespaz/jenkins_prod.git', branch: 'master'
+                git url: 'https://github.com/eudespaz/dev-jenkins.git', branch: 'master'
             }
         }
     
         stage('Docker Build') {
             steps {
                 script {
-                    dockerapp = docker.build("eudespaz/jenkins-producao-kurier:${env.BUILD_ID}",
-                    '-f /var/jenkins_home/workspace/Projeto-JENKINS-PRODUCAO-KURIER/Dockerfile .')
+                    dockerapp = docker.build("vmtribunalimg:5000/jenkins-tribunal:${env.BUILD_ID}",
+                    '-f /var/jenkins_home/workspace/DEV-JENKINS/Dockerfile .')
                 }
             }
         }
@@ -21,7 +21,7 @@ pipeline {
         stage('Docker Push Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('https://vmtribunalimg:5000') {
                     dockerapp.push('latest')
                     dockerapp.push("${env.BUILD_ID}")
 
