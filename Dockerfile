@@ -1,6 +1,8 @@
 FROM jenkins/jenkins:lts
 USER root
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
+RUN mkdir -p /etc/docker
+COPY daemon.json /etc/docker
 RUN apt-get update && \
 apt-get -y install apt-transport-https \
     ca-certificates \

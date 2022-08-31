@@ -5,14 +5,14 @@ services:
     deploy:
       placement:
         constraints:
-          - node.role == manager
+          - node.hotname == VMADMTRB02
       restart_policy:
         condition: on-failure
       resources:
         limits:
-          memory: 10G
+          memory: 5G
     ports:
-      - 8089:8080
+      - 8088:8080
       - 50000:50000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -25,9 +25,9 @@ services:
 
 volumes:
   jenkins:
-    internal: true
+    local: true
 
 networks:
    KURIER:
-     internal: true 
+     local: true 
 
