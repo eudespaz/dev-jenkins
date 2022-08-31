@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  jenkins:
+    image: jenkins-prod-kurier:v1
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          memory: 10G
+    ports:
+      - 8089:8080
+      - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - jenkins:/var/jenkins_home
+    networks:
+      - KURIER
+    environment:
+      TZ: "America/Recife"
+
+volumes:
+  jenkins:
+    internal: true
+
+networks:
+   KURIER:
+     internal: true 
+
